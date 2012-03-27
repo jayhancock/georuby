@@ -56,7 +56,7 @@ describe LineString do
 
     it "should concat points" do
       line_string = LineString::new
-      line_string.concat([Point.from_x_y(12.4,45.3),Point.from_x_y(45.4,41.6)])
+      line_string << [Point.from_x_y(12.4,45.3),Point.from_x_y(45.4,41.6)]
 
       line_string.length.should eql(2)
       line_string[0].should == Point.from_x_y(12.4,45.3)

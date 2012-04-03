@@ -15,6 +15,9 @@ module GeoRuby
       def method_missing(method_name,*args,&b)
         @geometries.send(method_name,*args,&b)
       end
+      def concat(b)
+        @geometries.send(:concat, b)
+      end
 
       #Bounding box in 2D/3D. Returns an array of 2 points
       def bounding_box
@@ -140,7 +143,7 @@ module GeoRuby
       #creates a new GeometryCollection from an array of geometries
       def self.from_geometries(geometries,srid=DEFAULT_SRID,with_z=false,with_m=false)
         geometry_collection = new(srid,with_z,with_m)
-        geometry_collection << geometries
+        geometry_collection.concat(geometries)
         geometry_collection
       end
     end

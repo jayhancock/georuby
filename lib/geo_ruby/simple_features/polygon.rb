@@ -19,6 +19,9 @@ module GeoRuby
       def method_missing(method_name,*args,&b)
         @rings.send(method_name,*args,&b)
       end
+      def concat(b)
+        @rings.send(:concat, b)
+      end
 
       #Bounding box in 2D/3D. Returns an array of 2 points
       def bounding_box
@@ -154,21 +157,21 @@ module GeoRuby
       #creates a new polygon. Accepts an array of linear strings as argument
       def self.from_linear_rings(linear_rings,srid = DEFAULT_SRID,with_z=false,with_m=false)
         polygon = new(srid,with_z,with_m)
-        polygon << linear_rings
+        polygon.concat(linear_rings)
         polygon
       end
 
       #creates a new polygon. Accepts a sequence of points as argument : ((x,y)....(x,y)),((x,y).....(x,y))
       def self.from_coordinates(point_sequences,srid=DEFAULT_SRID,with_z=false,with_m=false)
         polygon = new(srid,with_z,with_m)
-        polygon << point_sequences.map {|points| LinearRing.from_coordinates(points,srid,with_z,with_m) } 
+        polygon.concat(point_sequences.map {|points| LinearRing.from_coordinates(points,srid,with_z,with_m) } )
         polygon
       end
 
       #creates a new polygon from a list of Points (pt1....ptn),(pti....ptj)
       def self.from_points(point_sequences, srid=DEFAULT_SRID,with_z=false,with_m=false)
         polygon = new(srid,with_z,with_m)
-        polygon << point_sequences.map {|points| LinearRing.from_points(points,srid,with_z,with_m) } 
+        polygon.concat(point_sequences.map {|points| LinearRing.from_points(points,srid,with_z,with_m) })
         polygon
       end
 

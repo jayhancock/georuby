@@ -4,6 +4,7 @@
 # fix bc rails overwrote the :concat method in ActionView
 class Array
   def concat(b)
+    return self if b.empty?
     self[self.length,b.length] = b
   end
 end

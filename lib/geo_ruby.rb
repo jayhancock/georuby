@@ -6,6 +6,8 @@ class Array
   def concat(b)
     return self if b.empty?
     self[self.length,b.length] = b
+
+    return self
   end
 end
 
